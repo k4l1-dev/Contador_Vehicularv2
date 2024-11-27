@@ -1,4 +1,3 @@
-// Datos de etiquetas e imágenes predefinidas
 const datos = [
   { etiqueta: "AUTO", imagen: "img/auto.png" },
   { etiqueta: "STATION_WAGON", imagen: "img/station_wagon.png" },
@@ -22,18 +21,17 @@ const datos = [
 ];
 
 
-// Inicializar contadores
+
 const contadores = new Array(datos.length).fill(0);
 
-// Historial de clics
+
 const historial = [];
 
-// Cargar mosaicos e inicializar eventos
+
 const mosaicos = document.getElementById("mosaicos");
 const tablaContadores = document.getElementById("tabla-contadores");
 
 datos.forEach((dato, index) => {
-  // Crear un mosaico
   const tile = document.createElement("div");
   tile.className = "tile";
   tile.innerHTML = `<img src="${dato.imagen}" alt="${dato.etiqueta}">`;
@@ -43,7 +41,7 @@ datos.forEach((dato, index) => {
   });
   mosaicos.appendChild(tile);
 
-  // Crear fila en la tabla
+  
   const fila = document.createElement("tr");
   fila.id = `fila-${index}`;
   fila.innerHTML = `
@@ -54,7 +52,7 @@ datos.forEach((dato, index) => {
   tablaContadores.appendChild(fila);
 });
 
-// Incrementar el contador de una imagen
+
 function incrementarContador(index) {
   contadores[index]++;
   const contadorElemento = document.getElementById(`contador-${index}`);
@@ -75,9 +73,9 @@ function registrarClic(index) {
   console.log("Clic registrado:", registro);
 }
 
-// Resetear todos los contadores
+
 document.getElementById("resetear-btn").addEventListener("click", () => {
-  // Reiniciar todos los valores del array de contadores
+  
   for (let i = 0; i < contadores.length; i++) {
     contadores[i] = 0;
     document.getElementById(`contador-${i}`).textContent = "0";
@@ -85,34 +83,34 @@ document.getElementById("resetear-btn").addEventListener("click", () => {
   console.log("Todos los contadores se han reseteado.");
 });
 
-// Exportar historial a CSV
+
 document.getElementById("exportar-btn").addEventListener("click", () => {
   if (historial.length === 0) {
     alert("No hay datos para exportar.");
     return;
   }
 
-  // Crear contenido CSV
+  
   let csvContent = "Etiqueta,Fecha,Hora,Día\n";
   historial.forEach((registro) => {
     csvContent += `${registro.etiqueta},${registro.fecha},${registro.hora},${registro.dia}\n`;
   });
 
-  // Crear archivo Blob
+  
   const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
 
-  // Crear enlace para descargar
+  
   const link = document.createElement("a");
   link.setAttribute("href", url);
   link.setAttribute("download", "historial_clics.csv");
   link.style.display = "none";
   document.body.appendChild(link);
 
-  // Hacer clic en el enlace
+  
   link.click();
 
-  // Limpiar el enlace
+  
   document.body.removeChild(link);
 
   console.log("Historial exportado.");
